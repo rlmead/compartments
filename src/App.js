@@ -8,6 +8,7 @@ class App extends React.Component {
     this.state = {
       itemCount: 0,
       compartment: null,
+      itemsToShow: 'all',
     }
     // this.addListItem = this.addListItem.bind(this)
   }
@@ -25,6 +26,7 @@ class App extends React.Component {
       // }
     // ]
   // }
+
 
   // declare function addCompartment to add a new compartment array to the storage object
   // to be used on compartment input button click
@@ -45,11 +47,15 @@ class App extends React.Component {
       <>
         {/* header */}
         <h1>Compartments</h1>
+        {/* add function to the following buttons to setState of itemsToShow */}
+        <button>All</button><button>To Do</button><button>Completed</button>
         <Compartment compartmentName='fun' />
         {/* 
         COMPARTMENT INPUT onClick=addCompartment
+
         for each compartment in the data object:
             <Compartment
+              itemsToShow={this.state.itemsToShow}
               compartmentName={name}
               data={data.compartmentName}
               addListItem={(???) => this.addListItem(???)}

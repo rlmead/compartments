@@ -12,12 +12,14 @@ class Compartment extends React.Component {
     }
 
     // passed through in props:
-    // compartmentName= this compartment's name
+    // itemsToShow = all / todo / completed
+    // compartmentName = this compartment's name
     // data= this compartment's data array
     // addListItem = function from App.js
     // delListItem = function from App.js
     // delCompartment = function from App.js
 
+    // function to expand/collapse this compartment
     expandCollapse() {
         this.setState({display: !this.display});
     }
@@ -28,6 +30,7 @@ class Compartment extends React.Component {
             <ListItem
                 data={item_data}
                 delListItem={this.props.delListItem}
+                itemsToShow={this.props.itemsToShow}
             />
         )
     }
@@ -44,6 +47,7 @@ class Compartment extends React.Component {
         //       <h2 class="mb-0">
         //           compartment name
         //       </h2>
+        //      <h3>number of items currently showing</h3> (do some fancy footwork to generate this from the data in this array, using the length of the array and the current value of itemsToShow)
         //       <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
         //      onClick: expandCollapse
         //      determine the content of this button (+ or -) depending on this.state.display
@@ -58,7 +62,10 @@ class Compartment extends React.Component {
         //          for (let i = 0; i < this.props.data.length; i++) {
             //          renderListItem(this.props.data[i])
             //      }
-            
+
+        //          button to mark all items in this compartment as incomplete (set every list item's 'done' value to 'false')
+        //          button to mark all items in this compartment as complete (set every list item's 'done' value to 'true')
+        //          button to remove all completed items in this compartment (delListItem every item with a 'done' value of 'true')
         //       </div>
         //     </div>
         //   </div>
