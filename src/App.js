@@ -7,8 +7,9 @@ class App extends React.Component {
     super();
     this.state = {
       itemCount: 0,
-      compartment: null,
+      compartments: null,
       itemView: 'all',
+
     };
     this.viewButtons = [
       'all',
@@ -17,7 +18,7 @@ class App extends React.Component {
     ];
     this.setView = this.setView.bind(this);
     this.addCompartment = this.addCompartment.bind(this);
-    // this.addListItem = this.addListItem.bind(this)
+    this.addListItem = this.addListItem.bind(this)
   }
 
   // declare a function to change view with viewButtons
@@ -28,19 +29,18 @@ class App extends React.Component {
   // declare function addCompartment to add a new compartment array to the storage object
   // to be used on compartment input button click - and componentDidMount?
   addCompartment(compartmentName) {
-    window.localStorage.setItem(compartmentName,'');
-    // console.log(localStorage);
+    window.localStorage.setItem(compartmentName, '');
   }
-  
+
   // declare function addListItem to add a new list item object to the storage object / compartment array
   // to be used on list input button click (add to buttons: onClick={this.addListItem.bind(this)}) ???
   // this.setState({itemCount: this.state.itemCount + 1});
   // add list item object to compartment's array
-  // addListItem(compartmentName) {
-  //   let existingToDos = (localStorage.getItem(compartmentName)) : JSON.parse(localStorage.getItem(compartmentName)) : [];
-  //   console.log(existingToDos);
-  // }
-  
+  addListItem(compartmentName, listItemName) {
+    let existingToDos = (localStorage.getItem(compartmentName)) ? JSON.parse(localStorage.getItem(compartmentName)) : [];
+    localStorage.setItem(compartmentName, JSON.stringify(existingToDos.push(listItemName)))
+  }
+
 
   // declare an array with compartment background colors
   // to alternate when generating compartments
@@ -63,6 +63,16 @@ class App extends React.Component {
   // declare function delListItem to remove a list item object from the storage object / compartment array
   // to be used on list X button click
 
+  // load existing components from localStorage as necessary
+  // componentDidMount() {
+  //   let storedData = window.localStorage.getItem('compartments')
+  //   if (storedPage) {
+  //     this.setState({ currentPage: JSON.parse(storedPage) })
+  //   } else {
+  //     window.localStorage.setItem('currentPage', JSON.stringify(this.state.currentPage))
+  //   }
+  // }
+
   render() {
     return (
       <>
@@ -74,9 +84,9 @@ class App extends React.Component {
           this.viewButtons.map((item, key) => {
             return (
               <button
+                id={'button-' + key}
                 className={'m-2 btn ' + ((this.state.itemView === item) ? ' btn-primary' : 'btn-secondary')}
                 onClick={() => this.setView(item)}
-                key={key}
               >
                 {item}
               </button>
@@ -90,19 +100,27 @@ class App extends React.Component {
             <button className='btn btn-outline-secondary' type='button' id='button-addon2' onClick={() => this.addCompartment(document.getElementById('compartmentInput').value)}>+</button>
           </div>
           {/* <div className='input-group-append'>
-            <button className='btn btn-outline-secondary' type='button' id='button-addon2' onClick={() => this.addListItem(document.getElementById('compartmentInput').value)}>-</button>
+            <button className='btn btn-outline-secondary' type='button' id='button-addon2' onClick={() => this.addListItem(document.getElementById('compartmentInput').value)}>++</button>
           </div> */}
         </div>
 
-        {/* for each compartment in the data object:
-            <Compartment
+        {/* create a new compartment for each listed in localStorage */}
+        {/* {
+          compartments.map((compartment, index) => {
+            return(
+              <h2>{compartment}</h2>
+              <Compartment
               itemView={this.state.itemView}
-              compartmentName={name}
-              data={data.compartmentName}
-              addListItem={(???) => this.addListItem(???)}
-              delListItem={(???) => this.delListItem(???)}
-              delCompartment={(???) => this.delCompartment(???)}
-              /> */}
+              compartmentName={compartment}
+              data={JSON.parse(window.localStorage[compartment])}
+              addListItem={this.addListItem}
+              index={'compartment-'+index}
+              // delListItem={(???) => this.delListItem(???)}
+              // delCompartment={(???) => this.delCompartment(???)}
+              />
+            )
+          })
+        } */}
 
       </>
     );

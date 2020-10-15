@@ -12,12 +12,15 @@ class Compartment extends React.Component {
     }
 
     // passed through in props:
-    // itemsToShow = all / todo / completed
-    // compartmentName = this compartment's name
-    // data= this compartment's data array
-    // addListItem = function from App.js
-    // delListItem = function from App.js
-    // delCompartment = function from App.js
+    // <Compartment
+    // itemView={this.state.itemView}
+    // compartmentName={compartment}
+    // data={JSON.parse(window.localStorage[compartment])}
+    // addListItem={this.addListItem}
+    // key={'compartment-'+key}
+    // // delListItem={(???) => this.delListItem(???)}
+    // // delCompartment={(???) => this.delCompartment(???)}
+    // />
 
     // function to expand/collapse this compartment
     expandCollapse() {
@@ -25,15 +28,15 @@ class Compartment extends React.Component {
     }
 
     // function to render each list item in data array
-    renderListItem(item_data) {
-        return (
-            <ListItem
-                data={item_data}
-                delListItem={this.props.delListItem}
-                itemsToShow={this.props.itemsToShow}
-            />
-        )
-    }
+    // renderListItem(item_data) {
+    //     return (
+    //         <ListItem
+    //             data={item_data}
+    //             delListItem={this.props.delListItem}
+    //             itemsToShow={this.props.itemsToShow}
+    //         />
+    //     )
+    // }
 
     render() {
         return (
