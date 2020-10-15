@@ -7,9 +7,8 @@ class App extends React.Component {
     super();
     this.state = {
       itemCount: 0,
-      compartments: null,
       itemView: 'all',
-
+      data: {},
     };
     this.viewButtons = [
       'all',
@@ -29,7 +28,13 @@ class App extends React.Component {
   // declare function addCompartment to add a new compartment array to the storage object
   // to be used on compartment input button click - and componentDidMount?
   addCompartment(compartmentName) {
-    window.localStorage.setItem(compartmentName, '');
+    let existingToDos = JSON.parse(window.localStorage.data);
+    if (compartmentName in existingToDos) {
+      alert('please choose a unique compartment name');
+    } else {
+      existingToDos[compartmentName] = [];
+      window.localStorage.setItem('data', JSON.stringify(existingToDos));
+    }
   }
 
   // declare function addListItem to add a new list item object to the storage object / compartment array
@@ -37,7 +42,7 @@ class App extends React.Component {
   // this.setState({itemCount: this.state.itemCount + 1});
   // add list item object to compartment's array
   addListItem(compartmentName, listItemName) {
-    let existingToDos = (localStorage.getItem(compartmentName)) ? JSON.parse(localStorage.getItem(compartmentName)) : [];
+    let existingToDos = (localStorage.getItem(compartmentName)) ? JSON.parse(localStorage.getItem(compartmentName)) : {};
     localStorage.setItem(compartmentName, JSON.stringify(existingToDos.push(listItemName)))
   }
 
@@ -64,14 +69,14 @@ class App extends React.Component {
   // to be used on list X button click
 
   // load existing components from localStorage as necessary
-  // componentDidMount() {
-  //   let storedData = window.localStorage.getItem('compartments')
-  //   if (storedPage) {
-  //     this.setState({ currentPage: JSON.parse(storedPage) })
-  //   } else {
-  //     window.localStorage.setItem('currentPage', JSON.stringify(this.state.currentPage))
-  //   }
-  // }
+  componentDidMount() {
+    let storedData = window.localStorage.getItem('data')
+    if (storedData) {
+      this.setState({ data: JSON.parse(storedData) })
+    } else {
+      window.localStorage.setItem('data', JSON.stringify({}))
+    }
+  }
 
   render() {
     return (
@@ -84,7 +89,7 @@ class App extends React.Component {
           this.viewButtons.map((item, key) => {
             return (
               <button
-                id={'button-' + key}
+                key={'button-' + key}
                 className={'m-2 btn ' + ((this.state.itemView === item) ? ' btn-primary' : 'btn-secondary')}
                 onClick={() => this.setView(item)}
               >
@@ -97,7 +102,13 @@ class App extends React.Component {
         <div className='input-group p-3'>
           <input id='compartmentInput' type='text' className='form-control' placeholder='add new compartment' aria-label='Recipient&apos;s username' aria-describedby='button-addon2'></input>
           <div className='input-group-append'>
-            <button className='btn btn-outline-secondary' type='button' id='button-addon2' onClick={() => this.addCompartment(document.getElementById('compartmentInput').value)}>+</button>
+            <button
+              className='btn btn-outline-secondary'
+              type='button'
+              id='button-addon2'
+              onClick={() => this.addCompartment(document.getElementById('compartmentInput').value)}>+
+              {/* onClick={() => console.log(document.getElementById('compartmentInput').value)}> */}
+              </button>
           </div>
           {/* <div className='input-group-append'>
             <button className='btn btn-outline-secondary' type='button' id='button-addon2' onClick={() => this.addListItem(document.getElementById('compartmentInput').value)}>++</button>
