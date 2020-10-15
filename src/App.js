@@ -57,26 +57,29 @@ class App extends React.Component {
     return (
       <>
         {/* header */}
-        <h1>Compartments</h1>
+        <h1>compartments</h1>
         {/* render buttons that will setState of itemView */}
         {
           // generate buttons dynamically using props.pages
           this.viewButtons.map((item) => {
             return (
               <button
-                className={'btn ' + ((this.state.itemView === item) ? ' btn-primary' : 'btn-secondary')}
+                className={'m-2 btn ' + ((this.state.itemView === item) ? ' btn-primary' : 'btn-secondary')}
                 onClick={() => this.setView(item)}
               >
                 {item}
               </button>
-              //                onClick={() => props.setPage(index)}
             )
           })
         }
-
-        <Compartment compartmentName='fun' />
+        {/* COMPARTMENT INPUT onClick=addCompartment */}
+        <div class="input-group p-3">
+          <input type="text" class="form-control" placeholder="add new compartment" aria-label="Recipient's username" aria-describedby="button-addon2"></input>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2">+</button>
+          </div>
+        </div>
         {/* 
-        COMPARTMENT INPUT onClick=addCompartment
 
         for each compartment in the data object:
             <Compartment
