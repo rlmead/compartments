@@ -39,7 +39,7 @@ class Compartment extends React.Component {
     render() {
         return (
             <>
-                <div class='card-header' id='headingOne'>
+                <div class='card-header border' id='headingOne'>
                     {this.props.compartmentName}
                     <button
                     class='btn btn-link'
@@ -57,8 +57,19 @@ class Compartment extends React.Component {
                 class={'collapse ' + ((this.state.display) ? 'show' : 'hidden')}
                 aria-labelledby='headingOne'
                 data-parent='#accordionExample'>
-                    <div class='card-body'>
-                        'hello'
+                        <div className='input-group p-3'>
+                            <input id={'input-'+this.props.key} type='text' className='form-control' placeholder='add a new thought' aria-describedby='button-addon2'></input>
+                            <div className='input-group-append'>
+                                <button
+                                className='btn btn-outline-secondary'
+                                type='button'
+                                id='button-addon2'
+                                onClick={() => this.props.addListItem(this.props.compartmentName, document.getElementById('input-'+this.props.key).value)}>+
+                                </button>
+                            </div>
+                        </div>
+                    <div class='card-body mb-3 border'>
+                        {/* insert listItems */}
                     </div>
                 </div>
             </>

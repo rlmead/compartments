@@ -53,12 +53,11 @@ class App extends React.Component {
   }
 
   // declare function addListItem to add a new list item object to the storage object / compartment array
-  // to be used on list input button click (add to buttons: onClick={this.addListItem.bind(this)}) ???
-  // this.setState({itemCount: this.state.itemCount + 1});
-  // add list item object to compartment's array
   addListItem(compartmentName, listItemName) {
-    let existingToDos = (localStorage.getItem(compartmentName)) ? JSON.parse(localStorage.getItem(compartmentName)) : {};
-    localStorage.setItem(compartmentName, JSON.stringify(existingToDos.push(listItemName)))
+    this.setState({itemCount: this.state.itemCount + 1});
+    console.log(this.state.itemCount);
+    // let existingToDos = (localStorage.getItem(compartmentName)) ? JSON.parse(localStorage.getItem(compartmentName)) : {};
+    // localStorage.setItem(compartmentName, JSON.stringify(existingToDos.push(listItemName)))
   }
 
 
@@ -107,14 +106,13 @@ class App extends React.Component {
         }
         {/* COMPARTMENT INPUT onClick=addCompartment */}
         <div className='input-group p-3'>
-          <input id='compartmentInput' type='text' className='form-control' placeholder='add new compartment' aria-label='Recipient&apos;s username' aria-describedby='button-addon2'></input>
+          <input id='compartmentInput' type='text' className='form-control' placeholder='add a new compartment' aria-describedby='button-addon2'></input>
           <div className='input-group-append'>
             <button
               className='btn btn-outline-secondary'
               type='button'
               id='button-addon2'
               onClick={() => this.addCompartment(document.getElementById('compartmentInput').value)}>+
-              {/* onClick={() => console.log(document.getElementById('compartmentInput').value)}> */}
             </button>
           </div>
           {/* <div className='input-group-append'>
