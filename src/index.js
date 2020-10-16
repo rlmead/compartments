@@ -7,7 +7,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 ReactDOM.render(
   <React.StrictMode>
+  <div className='text-center'>
     <App />
+  </div>
   </React.StrictMode>,
   document.getElementById('root')
 );
