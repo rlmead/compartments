@@ -26,6 +26,7 @@ class Compartment extends React.Component {
 
 
     render() {
+        console.log(this.props.id);
         return (
             <>
                 <div class='card-header border' id='headingOne'>
@@ -47,13 +48,13 @@ class Compartment extends React.Component {
                     aria-labelledby='headingOne'
                     data-parent='#accordionExample'>
                     <div className='input-group p-3'>
-                        <input id={'input-' + this.props.key} type='text' className='form-control' placeholder='compartmentalize a thought' aria-describedby='button-addon2'></input>
+                        <input id={'input-' + this.props.id} type='text' className='form-control' placeholder='compartmentalize a thought' aria-describedby='button-addon2'></input>
                         <div className='input-group-append'>
                             <button
                                 className='btn btn-outline-secondary'
                                 type='button'
                                 id='button-addon2'
-                                onClick={() => this.props.addListItem(this.props.compartmentName, document.getElementById('input-' + this.props.key).value)}>+
+                                onClick={() => this.props.addListItem(this.props.compartmentName, document.getElementById('input-' + this.props.id).value)}>+
                                 </button>
                         </div>
                     </div>

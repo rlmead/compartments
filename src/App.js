@@ -122,7 +122,7 @@ class App extends React.Component {
                     data={this.state.data[item]}
                     compartmentName={item}
                     addListItem={this.addListItem}
-                    key={'compartment-' + key}
+                    id={'compartment-'+key}
                   />
                 )
               })
