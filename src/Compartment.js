@@ -5,11 +5,10 @@ class Compartment extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            // toggle expansion of inner list
             display: false,
         }
+        this.expandCollapse = this.expandCollapse.bind(this);
     }
-
     // passed through in props:
     // <Compartment
     // itemView={this.state.itemView}
@@ -23,7 +22,7 @@ class Compartment extends React.Component {
 
     // function to expand/collapse this compartment
     expandCollapse() {
-        this.setState({ display: !this.display });
+        this.setState({ display: !this.state.display })
     }
 
     // function to render each list item in data array
@@ -40,13 +39,26 @@ class Compartment extends React.Component {
     render() {
         return (
             <>
-                <div class="card-header" id="headingOne">
+                <div class='card-header' id='headingOne'>
                     {this.props.compartmentName}
-                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">-
+                    <button
+                    class='btn btn-link'
+                    type='button'
+                    data-toggle='collapse'
+                    data-target='#collapseOne'
+                    aria-expanded='true'
+                    aria-controls='collapseOne'
+                    onClick={this.expandCollapse}>
+                    {this.state.display ? '-' : '+'}
                     </button>
                 </div>
-                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                    <div class="card-body">'hello'
+                <div
+                id='collapseOne'
+                class={'collapse ' + ((this.state.display) ? 'show' : 'hidden')}
+                aria-labelledby='headingOne'
+                data-parent='#accordionExample'>
+                    <div class='card-body'>
+                        'hello'
                     </div>
                 </div>
             </>

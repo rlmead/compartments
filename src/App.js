@@ -17,7 +17,7 @@ class App extends React.Component {
     ];
     this.setView = this.setView.bind(this);
     this.addCompartment = this.addCompartment.bind(this);
-    this.addListItem = this.addListItem.bind(this)
+    this.addListItem = this.addListItem.bind(this);
   }
 
   // declare a function to change view with viewButtons
@@ -25,7 +25,7 @@ class App extends React.Component {
     this.setState({ itemView: view })
   }
 
-  // load existing components from localStorage as necessary
+  // load existing compartments from localStorage as necessary
   componentDidMount() {
     let storedData = window.localStorage.getItem('data')
     if (storedData) {
