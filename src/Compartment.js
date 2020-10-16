@@ -8,7 +8,6 @@ class Compartment extends React.Component {
         // toggle expansion of inner list
         display: false,
       }
-      // this.handleClick = this.handleClick.bind(this)
     }
 
     // passed through in props:
@@ -41,7 +40,6 @@ class Compartment extends React.Component {
     render() {
         return (
             <h2>{this.props.compartmentName}</h2>
-
         // rework all this bootstrappy stuff
 
         // <div class="accordion" id="accordionExample">
@@ -72,7 +70,6 @@ class Compartment extends React.Component {
         //       </div>
         //     </div>
         //   </div>
-
         )
     }
 }

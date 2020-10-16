@@ -79,6 +79,7 @@ class App extends React.Component {
   }
 
   render() {
+    let compartments = Object.keys(this.state.data);
     return (
       <>
         {/* header */}
@@ -114,24 +115,20 @@ class App extends React.Component {
             <button className='btn btn-outline-secondary' type='button' id='button-addon2' onClick={() => this.addListItem(document.getElementById('compartmentInput').value)}>++</button>
           </div> */}
         </div>
-
         {/* create a new compartment for each listed in localStorage */}
-        {/* {
-          compartments.map((compartment, index) => {
+        {
+          compartments.map((item, key) => {
             return(
-              <h2>{compartment}</h2>
               <Compartment
-              itemView={this.state.itemView}
-              compartmentName={compartment}
-              data={JSON.parse(window.localStorage[compartment])}
-              addListItem={this.addListItem}
-              index={'compartment-'+index}
-              // delListItem={(???) => this.delListItem(???)}
-              // delCompartment={(???) => this.delCompartment(???)}
+                itemView={this.state.itemView}
+                data={this.state.data}
+                compartmentName={item}
+                addListItem={this.addListItem}
+                key={'compartment-'+key}
               />
-            )
+              )
           })
-        } */}
+        }
 
       </>
     );
