@@ -54,7 +54,8 @@ class App extends React.Component {
 
   // declare function addListItem to add a new list item object to the storage object / compartment array
   addListItem(compartmentName, listItemName) {
-    this.setState({itemCount: this.state.itemCount + 1});
+    let newCount = this.state.itemCount + 1;
+    this.setState({ itemCount: newCount });
     let existingToDos = this.state.data;
     existingToDos[compartmentName].push({
       'name': listItemName,
@@ -110,15 +111,15 @@ class App extends React.Component {
           </div> */}
         </div>
         {/* compartment accordion parent divs */}
-        <div class="accordion" id="accordionExample">
-          <div class="card">
+        <div className="accordion" id="accordionExample">
+          <div className="card">
             {/* create a new compartment for each one listed in localStorage */}
             {
               compartments.map((item, key) => {
                 return (
                   <Compartment
                     itemView={this.state.itemView}
-                    data={this.state.data}
+                    data={this.state.data[item]}
                     compartmentName={item}
                     addListItem={this.addListItem}
                     key={'compartment-' + key}
