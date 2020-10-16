@@ -58,7 +58,7 @@ class Compartment extends React.Component {
                 aria-labelledby='headingOne'
                 data-parent='#accordionExample'>
                         <div className='input-group p-3'>
-                            <input id={'input-'+this.props.key} type='text' className='form-control' placeholder='add a new thought' aria-describedby='button-addon2'></input>
+                            <input id={'input-'+this.props.key} type='text' className='form-control' placeholder='compartmentalize a thought' aria-describedby='button-addon2'></input>
                             <div className='input-group-append'>
                                 <button
                                 className='btn btn-outline-secondary'

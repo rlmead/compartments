@@ -46,42 +46,32 @@ class App extends React.Component {
     if (compartmentName in this.state.data) {
       alert('please choose a unique compartment name');
     } else {
-      let existingToDos = this.state.data;
-      existingToDos[compartmentName] = [];
-      this.setState({ data: existingToDos });
+      let existingCompartments = this.state.data;
+      existingCompartments[compartmentName] = [];
+      this.setState({ data: existingCompartments });
     }
   }
 
   // declare function addListItem to add a new list item object to the storage object / compartment array
   addListItem(compartmentName, listItemName) {
     this.setState({itemCount: this.state.itemCount + 1});
-    console.log(this.state.itemCount);
-    // let existingToDos = (localStorage.getItem(compartmentName)) ? JSON.parse(localStorage.getItem(compartmentName)) : {};
-    // localStorage.setItem(compartmentName, JSON.stringify(existingToDos.push(listItemName)))
+    let existingToDos = this.state.data;
+    existingToDos[compartmentName].push({
+      'name': listItemName,
+      'id': this.state.itemCount,
+      'done': false,
+    })
+    this.setState({data: existingToDos});
   }
-
 
   // declare an array with compartment background colors
   // to alternate when generating compartments
-
-  // declare storage object with LocalStorage
-  // let data = {
-  // compartmentName: [
-  // {
-  // listItemName: 'string input by user',
-  // id: itemCount,
-  // done: false
-  // }
-  // ]
-  // }
-
 
   // declare function delCompartment to remove a compartment array
   // to be used on compartment X button click
 
   // declare function delListItem to remove a list item object from the storage object / compartment array
   // to be used on list X button click
-
 
   render() {
     let compartments = Object.keys(this.state.data);
