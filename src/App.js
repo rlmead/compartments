@@ -18,6 +18,7 @@ class App extends React.Component {
     this.setView = this.setView.bind(this);
     this.addCompartment = this.addCompartment.bind(this);
     this.addListItem = this.addListItem.bind(this);
+    this.checkBox = this.checkBox.bind(this);
   }
 
   // declare a function to change view with viewButtons
@@ -57,7 +58,6 @@ class App extends React.Component {
     if (listItemName === '') {
       alert('please enter a non-empty thought');
     } else {
-
       let newCount = this.state.itemCount + 1;
       this.setState({ itemCount: newCount });
       let existingToDos = this.state.data;
@@ -70,8 +70,13 @@ class App extends React.Component {
     }
   }
 
-  // declare function checkOff to mark a list item as done
-  
+  // declare function checkBox to mark a list item as done
+  checkBox(compartmentName, listItemId) {
+    let allData = this.state.data;
+    let itemIndex = this.state.data[compartmentName].findIndex(item => item.id === listItemId);
+    allData[compartmentName][itemIndex].done = !allData[compartmentName][itemIndex].done;
+    this.setState({ data: allData })
+  }
 
   // declare an array with compartment background colors
   // to alternate when generating compartments
@@ -123,14 +128,15 @@ class App extends React.Component {
           <div className="card">
             {/* create a new compartment for each one listed in localStorage */}
             {
-              compartments.map((item, key) => {
+              compartments.map((item, index) => {
                 return (
                   <Compartment
                     itemView={this.state.itemView}
                     data={this.state.data[item]}
                     compartmentName={item}
                     addListItem={this.addListItem}
-                    id={'compartment-' + key}
+                    checkBox={this.checkBox}
+                    id={'compartment-' + index}
                   />
                 )
               })

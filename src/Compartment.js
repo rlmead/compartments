@@ -61,8 +61,10 @@ class Compartment extends React.Component {
                             this.props.data.map((item, key) => {
                                 return (
                                     <ListItem
+                                        compartmentName={this.props.compartmentName}
                                         data={item}
-                                        id={'list-item-'+key}
+                                        key={'list-item-'+key}
+                                        checkBox={this.props.checkBox}
                                     />
                                 )
                             })
