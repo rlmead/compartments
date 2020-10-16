@@ -29,16 +29,20 @@ class App extends React.Component {
   // load existing compartments from localStorage as necessary
   componentDidMount() {
     let storedData = window.localStorage.getItem('data')
+    let storedCount = window.localStorage.getItem('itemCount')
     if (storedData) {
       this.setState({ data: JSON.parse(storedData) })
+      this.setState({ itemCount: JSON.parse(storedCount) })
     } else {
       window.localStorage.setItem('data', JSON.stringify({}))
+      window.localStorage.setItem('itemCount', JSON.stringify(this.state.itemCount))
     }
   }
 
   // keep localStorage up to date with this.state.currentPage
   componentDidUpdate() {
     window.localStorage.setItem('data', JSON.stringify(this.state.data))
+    window.localStorage.setItem('itemCount', JSON.stringify(this.state.itemCount))
   }
 
   // declare function addCompartment to add a new compartment array to the storage object
@@ -88,7 +92,7 @@ class App extends React.Component {
   // to be used on list X button click
 
   render() {
-    let compartments = Object.keys(this.state.data);
+    let compartments = Object.keys(this.state.data).reverse();
     return (
       <>
         {/* header */}
@@ -126,7 +130,7 @@ class App extends React.Component {
         {/* compartment accordion parent divs */}
         <div className="accordion" id="accordionExample">
           <div className="card">
-            {/* create a new compartment for each one listed in localStorage */}
+            {/* create a new compartment for each one listed in this.state.data */}
             {
               compartments.map((item, index) => {
                 return (
