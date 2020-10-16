@@ -123,9 +123,6 @@ class App extends React.Component {
               onClick={() => this.addCompartment(document.getElementById('compartmentInput').value)}>+
             </button>
           </div>
-          {/* <div className='input-group-append'>
-            <button className='btn btn-outline-secondary' type='button' id='button-addon2' onClick={() => this.addListItem(document.getElementById('compartmentInput').value)}>++</button>
-          </div> */}
         </div>
         {/* compartment accordion parent divs */}
         <div className="accordion" id="accordionExample">

@@ -24,6 +24,19 @@ class Compartment extends React.Component {
     }
 
     render() {
+        // determine which items to display according to itemView 
+        let itemsToRender;
+        switch (this.props.itemView) {
+            case 'all':
+                itemsToRender = this.props.data;
+                break;
+            case 'to do':
+                itemsToRender = this.props.data.filter(item => (item.done === false));
+                break;
+            case 'done':
+                itemsToRender = this.props.data.filter(item => item.done);
+                break;
+        }
         return (
             <>
                 <div className='card-header border' id='headingOne'>
@@ -46,7 +59,8 @@ class Compartment extends React.Component {
                     data-parent='#accordionExample'>
                     <div className='card-body mb-3 border'>
                         <div className='input-group p-3'>
-                            <input id={'input-' + this.props.id} type='text' className='form-control' placeholder='compartmentalize a thought' aria-describedby='button-addon2'></input>
+                            <input id={'input-' + this.props.id}
+                                type='text' className='form-control' placeholder='compartmentalize a thought' aria-describedby='button-addon2'></input>
                             <div className='input-group-append'>
                                 <button
                                     className='btn btn-outline-secondary'
@@ -58,12 +72,12 @@ class Compartment extends React.Component {
                         </div>
                         {/* render each list item in this compartment's data array */}
                         {
-                            this.props.data.map((item, key) => {
+                            itemsToRender.map((item, key) => {
                                 return (
                                     <ListItem
                                         compartmentName={this.props.compartmentName}
                                         data={item}
-                                        id={'list-item-'+key}
+                                        id={'list-item-' + key}
                                         checkBox={this.props.checkBox}
                                     />
                                 )
