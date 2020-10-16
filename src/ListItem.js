@@ -9,9 +9,11 @@ function ListItem(props) {
         <div className='form-check text-left'>
         <input
         className='form-check-input'
-        type='checkbox' value=''
-        id='defaultCheck1'
-        onClick={() => props.checkBox(props.compartmentName,props.data.id)} />
+        type='checkbox'
+        value=''
+        id={'check-'+props.id}
+        onClick={() => props.checkBox(props.compartmentName,props.data.id)}
+        checked={(props.data.done)} />
         <label
         className='form-check-label'
         htmlFor='defaultCheck1'>

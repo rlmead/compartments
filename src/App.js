@@ -61,7 +61,7 @@ class App extends React.Component {
       let newCount = this.state.itemCount + 1;
       this.setState({ itemCount: newCount });
       let existingToDos = this.state.data;
-      existingToDos[compartmentName].push({
+      existingToDos[compartmentName].unshift({
         'name': listItemName,
         'id': this.state.itemCount,
         'done': false,

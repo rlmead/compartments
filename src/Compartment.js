@@ -63,7 +63,7 @@ class Compartment extends React.Component {
                                     <ListItem
                                         compartmentName={this.props.compartmentName}
                                         data={item}
-                                        key={'list-item-'+key}
+                                        id={'list-item-'+key}
                                         checkBox={this.props.checkBox}
                                     />
                                 )
