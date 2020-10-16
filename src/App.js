@@ -25,15 +25,30 @@ class App extends React.Component {
     this.setState({ itemView: view })
   }
 
+  // load existing components from localStorage as necessary
+  componentDidMount() {
+    let storedData = window.localStorage.getItem('data')
+    if (storedData) {
+      this.setState({ data: JSON.parse(storedData) })
+    } else {
+      window.localStorage.setItem('data', JSON.stringify({}))
+    }  
+  }  
+
+  // keep localStorage up to date with this.state.currentPage
+  componentDidUpdate() {
+    window.localStorage.setItem('data', JSON.stringify(this.state.data))
+  }  
+
   // declare function addCompartment to add a new compartment array to the storage object
   // to be used on compartment input button click - and componentDidMount?
   addCompartment(compartmentName) {
-    let existingToDos = JSON.parse(window.localStorage.data);
-    if (compartmentName in existingToDos) {
+    if (compartmentName in this.state.data) {
       alert('please choose a unique compartment name');
     } else {
+      let existingToDos = this.state.data;
       existingToDos[compartmentName] = [];
-      window.localStorage.setItem('data', JSON.stringify(existingToDos));
+      this.setState({ data: existingToDos });
     }
   }
 
@@ -68,15 +83,6 @@ class App extends React.Component {
   // declare function delListItem to remove a list item object from the storage object / compartment array
   // to be used on list X button click
 
-  // load existing components from localStorage as necessary
-  componentDidMount() {
-    let storedData = window.localStorage.getItem('data')
-    if (storedData) {
-      this.setState({ data: JSON.parse(storedData) })
-    } else {
-      window.localStorage.setItem('data', JSON.stringify({}))
-    }
-  }
 
   render() {
     let compartments = Object.keys(this.state.data);
@@ -109,27 +115,31 @@ class App extends React.Component {
               id='button-addon2'
               onClick={() => this.addCompartment(document.getElementById('compartmentInput').value)}>+
               {/* onClick={() => console.log(document.getElementById('compartmentInput').value)}> */}
-              </button>
+            </button>
           </div>
           {/* <div className='input-group-append'>
             <button className='btn btn-outline-secondary' type='button' id='button-addon2' onClick={() => this.addListItem(document.getElementById('compartmentInput').value)}>++</button>
           </div> */}
         </div>
-        {/* create a new compartment for each listed in localStorage */}
-        {
-          compartments.map((item, key) => {
-            return(
-              <Compartment
-                itemView={this.state.itemView}
-                data={this.state.data}
-                compartmentName={item}
-                addListItem={this.addListItem}
-                key={'compartment-'+key}
-              />
-              )
-          })
-        }
-
+        {/* compartment accordion parent divs */}
+        <div class="accordion" id="accordionExample">
+          <div class="card">
+            {/* create a new compartment for each one listed in localStorage */}
+            {
+              compartments.map((item, key) => {
+                return (
+                  <Compartment
+                    itemView={this.state.itemView}
+                    data={this.state.data}
+                    compartmentName={item}
+                    addListItem={this.addListItem}
+                    key={'compartment-' + key}
+                  />
+                )
+              })
+            }
+          </div>
+        </div>
       </>
     );
   }
