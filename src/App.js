@@ -32,19 +32,19 @@ class App extends React.Component {
       this.setState({ data: JSON.parse(storedData) })
     } else {
       window.localStorage.setItem('data', JSON.stringify({}))
-    }  
-  }  
+    }
+  }
 
   // keep localStorage up to date with this.state.currentPage
   componentDidUpdate() {
     window.localStorage.setItem('data', JSON.stringify(this.state.data))
-  }  
+  }
 
   // declare function addCompartment to add a new compartment array to the storage object
   // to be used on compartment input button click - and componentDidMount?
   addCompartment(compartmentName) {
-    if (compartmentName in this.state.data) {
-      alert('please choose a unique compartment name');
+    if (compartmentName in this.state.data || compartmentName === '') {
+      alert('please choose a unique, non-empty compartment name');
     } else {
       let existingCompartments = this.state.data;
       existingCompartments[compartmentName] = [];
@@ -54,15 +54,20 @@ class App extends React.Component {
 
   // declare function addListItem to add a new list item object to the storage object / compartment array
   addListItem(compartmentName, listItemName) {
-    let newCount = this.state.itemCount + 1;
-    this.setState({ itemCount: newCount });
-    let existingToDos = this.state.data;
-    existingToDos[compartmentName].push({
-      'name': listItemName,
-      'id': this.state.itemCount,
-      'done': false,
-    })
-    this.setState({data: existingToDos});
+    if (listItemName === '') {
+      alert('please enter a non-empty thought');
+    } else {
+
+      let newCount = this.state.itemCount + 1;
+      this.setState({ itemCount: newCount });
+      let existingToDos = this.state.data;
+      existingToDos[compartmentName].push({
+        'name': listItemName,
+        'id': this.state.itemCount,
+        'done': false,
+      })
+      this.setState({ data: existingToDos });
+    }
   }
 
   // declare an array with compartment background colors
@@ -122,7 +127,7 @@ class App extends React.Component {
                     data={this.state.data[item]}
                     compartmentName={item}
                     addListItem={this.addListItem}
-                    id={'compartment-'+key}
+                    id={'compartment-' + key}
                   />
                 )
               })
