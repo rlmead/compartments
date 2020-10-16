@@ -70,6 +70,9 @@ class App extends React.Component {
     }
   }
 
+  // declare function checkOff to mark a list item as done
+  
+
   // declare an array with compartment background colors
   // to alternate when generating compartments
 
