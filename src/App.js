@@ -16,6 +16,7 @@ class App extends React.Component {
       'done'
     ];
     this.setView = this.setView.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.addCompartment = this.addCompartment.bind(this);
     this.addListItem = this.addListItem.bind(this);
     this.checkBox = this.checkBox.bind(this);
@@ -44,6 +45,21 @@ class App extends React.Component {
     window.localStorage.setItem('data', JSON.stringify(this.state.data))
     window.localStorage.setItem('itemCount', JSON.stringify(this.state.itemCount))
   }
+
+  // declare function to handle "enter" keypress
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (e.target.id === 'compartmentInput') {
+        this.addCompartment(e.target);
+      } else {
+        // console.log(e.target.dataset.compartment);
+        this.addListItem(e.target.dataset.compartment, e.target);
+      }
+    }
+  }
+
+  // onClick={() => this.props.addListItem(this.props.compartmentName, document.getElementById('input-' + this.props.id))}
 
   // declare function addCompartment to add a new compartment array to the storage object
   // to be used on compartment input button click - and componentDidMount?
@@ -116,7 +132,14 @@ class App extends React.Component {
         }
         {/* COMPARTMENT INPUT onClick=addCompartment */}
         <div className='input-group p-3'>
-          <input id='compartmentInput' type='text' className='form-control' placeholder='add a new compartment' aria-describedby='button-addon2'></input>
+          <input
+          id='compartmentInput'
+          type='text'
+          className='form-control'
+          placeholder='add a new compartment'
+          aria-describedby='button-addon2'
+          onKeyPress={this.handleKeyPress}>
+          </input>
           <div className='input-group-append'>
             <button
               className='btn btn-outline-secondary'
@@ -137,9 +160,11 @@ class App extends React.Component {
                     itemView={this.state.itemView}
                     data={this.state.data[item]}
                     compartmentName={item}
+                    handleKeyPress={this.handleKeyPress}
                     addListItem={this.addListItem}
                     checkBox={this.checkBox}
                     id={'compartment-' + index}
+                    key={index}
                   />
                 )
               })

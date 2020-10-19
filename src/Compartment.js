@@ -27,14 +27,14 @@ class Compartment extends React.Component {
         // determine which items to display according to itemView 
         let itemsToRender;
         switch (this.props.itemView) {
-            case 'all':
-                itemsToRender = this.props.data;
-                break;
             case 'to do':
                 itemsToRender = this.props.data.filter(item => (item.done === false));
                 break;
             case 'done':
                 itemsToRender = this.props.data.filter(item => item.done);
+                break;
+            default:
+                itemsToRender = this.props.data;
                 break;
         }
         return (
@@ -59,10 +59,13 @@ class Compartment extends React.Component {
                     data-parent='#accordionExample'>
                     <div className='card-body mb-3 border'>
                         <div className='input-group p-3'>
-                            <input id={'input-' + this.props.id}
+                            <input
+                            id={'input-' + this.props.id}
+                            data-compartment={this.props.compartmentName}
                             type='text'
                             className='form-control' placeholder='compartmentalize a thought'
-                            aria-describedby='button-addon2'>
+                            aria-describedby='button-addon2'
+                            onKeyPress={this.props.handleKeyPress}>
                             </input>
                             <div className='input-group-append'>
                                 <button
