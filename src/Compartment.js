@@ -60,13 +60,16 @@ class Compartment extends React.Component {
                     <div className='card-body mb-3 border'>
                         <div className='input-group p-3'>
                             <input id={'input-' + this.props.id}
-                                type='text' className='form-control' placeholder='compartmentalize a thought' aria-describedby='button-addon2'></input>
+                            type='text'
+                            className='form-control' placeholder='compartmentalize a thought'
+                            aria-describedby='button-addon2'>
+                            </input>
                             <div className='input-group-append'>
                                 <button
                                     className='btn btn-outline-secondary'
                                     type='button'
                                     id='button-addon2'
-                                    onClick={() => this.props.addListItem(this.props.compartmentName, document.getElementById('input-' + this.props.id).value)}>+
+                                    onClick={() => this.props.addListItem(this.props.compartmentName, document.getElementById('input-' + this.props.id))}>+
                                 </button>
                             </div>
                         </div>

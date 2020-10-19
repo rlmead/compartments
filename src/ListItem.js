@@ -10,7 +10,6 @@ function ListItem(props) {
         <input
         className='form-check-input'
         type='checkbox'
-        value=''
         id={'check-'+props.id}
         onClick={() => props.checkBox(props.compartmentName,props.data.id)}
         checked={(props.data.done)} />

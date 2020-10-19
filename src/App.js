@@ -47,30 +47,32 @@ class App extends React.Component {
 
   // declare function addCompartment to add a new compartment array to the storage object
   // to be used on compartment input button click - and componentDidMount?
-  addCompartment(compartmentName) {
-    if (compartmentName in this.state.data || compartmentName === '') {
+  addCompartment(compartmentInput) {
+    if (compartmentInput.value in this.state.data || compartmentInput.value === '') {
       alert('please choose a unique, non-empty compartment name');
     } else {
       let existingCompartments = this.state.data;
-      existingCompartments[compartmentName] = [];
+      existingCompartments[compartmentInput.value] = [];
       this.setState({ data: existingCompartments });
+      compartmentInput.value = '';
     }
   }
 
   // declare function addListItem to add a new list item object to the storage object / compartment array
-  addListItem(compartmentName, listItemName) {
-    if (listItemName === '') {
+  addListItem(compartmentName, listItemInput) {
+    if (listItemInput.value === '') {
       alert('please enter a non-empty thought');
     } else {
       let newCount = this.state.itemCount + 1;
       this.setState({ itemCount: newCount });
       let existingToDos = this.state.data;
       existingToDos[compartmentName].unshift({
-        'name': listItemName,
+        'name': listItemInput.value,
         'id': this.state.itemCount,
         'done': false,
       })
       this.setState({ data: existingToDos });
+      listItemInput.value = '';
     }
   }
 
@@ -120,7 +122,7 @@ class App extends React.Component {
               className='btn btn-outline-secondary'
               type='button'
               id='button-addon2'
-              onClick={() => this.addCompartment(document.getElementById('compartmentInput').value)}>+
+              onClick={() => this.addCompartment(document.getElementById('compartmentInput'))}>+
             </button>
           </div>
         </div>
