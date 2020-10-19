@@ -22,6 +22,7 @@ class App extends React.Component {
     this.checkBox = this.checkBox.bind(this);
     this.delBox = this.delBox.bind(this);
     this.delListItem = this.delListItem.bind(this);
+    this.lockUnlock = this.lockUnlock.bind(this);
   }
 
   // declare a function to change view with viewButtons
@@ -117,6 +118,13 @@ class App extends React.Component {
     this.setState({ data: updatedData });
   }
 
+  lockUnlock(boxName) {
+    console.log(boxName);
+    let updatedData = this.state.data;
+    updatedData[boxName]['display'] = !updatedData[boxName]['display'];
+    this.setState({ data: updatedData });
+  }
+
   render() {
     let boxes = Object.keys(this.state.data).reverse();
     return (
@@ -175,6 +183,7 @@ class App extends React.Component {
                       checkBox={this.checkBox}
                       delBox={this.delBox}
                       delListItem={this.delListItem}
+                      lockUnlock={this.lockUnlock}
                       id={'box-' + index}
                       key={index}
                     />

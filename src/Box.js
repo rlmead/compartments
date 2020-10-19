@@ -8,15 +8,6 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 class Box extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            display: this.props.display,
-        }
-        this.expandCollapse = this.expandCollapse.bind(this);
-    }
-
-    // function to expand/collapse this box
-    expandCollapse() {
-        this.setState({ display: !this.state.display })
     }
 
     render() {
@@ -39,13 +30,13 @@ class Box extends React.Component {
                     <div className='row'>
                         <div className='col-1'>
                             {
-                                this.state.display
+                                this.props.display
                                     ? <FontAwesomeIcon
                                         icon={faLockOpen}
-                                        onClick={this.expandCollapse} />
+                                        onClick={() => this.props.lockUnlock(this.props.boxName)} />
                                     : <FontAwesomeIcon
                                         icon={faLock}
-                                        onClick={this.expandCollapse} />
+                                        onClick={() => this.props.lockUnlock(this.props.boxName)} />
                             }
                         </div>
                         <div className='col-10'>
@@ -60,7 +51,7 @@ class Box extends React.Component {
                 </div>
                 <div
                     id='collapseOne'
-                    className={'collapse ' + ((this.state.display) ? 'show' : 'hidden')}
+                    className={'collapse ' + ((this.props.display) ? 'show' : 'hidden')}
                     aria-labelledby='headingOne'
                     data-parent='#accordionExample'>
                     <div className='card-body mb-3 border'>
