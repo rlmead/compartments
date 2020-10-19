@@ -23,7 +23,7 @@ class Compartment extends React.Component {
         // determine which items to display according to itemView 
         let itemsToRender;
         switch (this.props.itemView) {
-            case 'to do':
+            case 'neglected':
                 itemsToRender = this.props.data.filter(item => (item.done === false));
                 break;
             case 'done':
@@ -36,27 +36,25 @@ class Compartment extends React.Component {
         return (
             <>
                 <div className='card-header border' id='headingOne'>
-                    <div className='container'>
-                        <div className='row'>
-                            <div className='col-1'>
-                                {
-                                    this.state.display
-                                        ? <FontAwesomeIcon
-                                            icon={faLockOpen}
-                                            onClick={this.expandCollapse} />
-                                        : <FontAwesomeIcon
-                                            icon={faLock}
-                                            onClick={this.expandCollapse} />
-                                }
-                            </div>
-                            <div className='col-10'>
-                                <h4 className='d-inline'>{this.props.compartmentName}</h4>
-                            </div>
-                            <div className='col-1'>
-                                <FontAwesomeIcon
-                                    icon={faTrashAlt}
-                                    onClick={() => this.props.delCompartment(this.props.compartmentName)} />
-                            </div>
+                    <div className='row'>
+                        <div className='col-1'>
+                            {
+                                this.state.display
+                                    ? <FontAwesomeIcon
+                                        icon={faLockOpen}
+                                        onClick={this.expandCollapse} />
+                                    : <FontAwesomeIcon
+                                        icon={faLock}
+                                        onClick={this.expandCollapse} />
+                            }
+                        </div>
+                        <div className='col-10'>
+                            <h4 className='d-inline'>{this.props.compartmentName}</h4>
+                        </div>
+                        <div className='col-1'>
+                            <FontAwesomeIcon
+                                icon={faTrashAlt}
+                                onClick={() => this.props.delCompartment(this.props.compartmentName)} />
                         </div>
                     </div>
                 </div>
@@ -71,7 +69,8 @@ class Compartment extends React.Component {
                                 id={'input-' + this.props.id}
                                 data-compartment={this.props.compartmentName}
                                 type='text'
-                                className='form-control' placeholder='compartmentalize a thought'
+                                className='form-control'
+                                placeholder='lock something away'
                                 aria-describedby='button-addon2'
                                 onKeyPress={this.props.handleKeyPress}>
                             </input>

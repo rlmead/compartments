@@ -12,7 +12,7 @@ class App extends React.Component {
     };
     this.viewButtons = [
       'all',
-      'to do',
+      'neglected',
       'done'
     ];
     this.setView = this.setView.bind(this);
@@ -122,63 +122,65 @@ class App extends React.Component {
     return (
       <>
         {/* header */}
-        <h1>compartments</h1>
-        {/* render buttons that will setState of itemView */}
-        {
-          // generate buttons dynamically using props.pages
-          this.viewButtons.map((item, key) => {
-            return (
+        <div className='container'>
+          <h1>to don't</h1>
+          {/* render buttons that will setState of itemView */}
+          {
+            // generate buttons dynamically using props.pages
+            this.viewButtons.map((item, key) => {
+              return (
+                <button
+                  key={'button-' + key}
+                  className={'m-2 btn ' + ((this.state.itemView === item) ? ' btn-primary' : 'btn-secondary')}
+                  onClick={() => this.setView(item)}
+                >
+                  {item}
+                </button>
+              )
+            })
+          }
+          {/* COMPARTMENT INPUT onClick=addCompartment */}
+          <div className='input-group p-3'>
+            <input
+              id='compartmentInput'
+              type='text'
+              className='form-control'
+              placeholder='add a new lockbox'
+              aria-describedby='button-addon2'
+              onKeyPress={this.handleKeyPress}>
+            </input>
+            <div className='input-group-append'>
               <button
-                key={'button-' + key}
-                className={'m-2 btn ' + ((this.state.itemView === item) ? ' btn-primary' : 'btn-secondary')}
-                onClick={() => this.setView(item)}
-              >
-                {item}
-              </button>
-            )
-          })
-        }
-        {/* COMPARTMENT INPUT onClick=addCompartment */}
-        <div className='input-group p-3'>
-          <input
-            id='compartmentInput'
-            type='text'
-            className='form-control'
-            placeholder='add a new compartment'
-            aria-describedby='button-addon2'
-            onKeyPress={this.handleKeyPress}>
-          </input>
-          <div className='input-group-append'>
-            <button
-              className='btn btn-outline-secondary'
-              type='button'
-              id='button-addon2'
-              onClick={() => this.addCompartment(document.getElementById('compartmentInput'))}>+
+                className='btn btn-outline-secondary'
+                type='button'
+                id='button-addon2'
+                onClick={() => this.addCompartment(document.getElementById('compartmentInput'))}>+
             </button>
+            </div>
           </div>
-        </div>
-        {/* compartment accordion parent divs */}
-        <div className="accordion" id="accordionExample">
-          <div className="card">
-            {/* create a new compartment for each one listed in this.state.data */}
-            {
-              compartments.map((item, index) => {
-                return (
-                  <Compartment
-                    itemView={this.state.itemView}
-                    data={this.state.data[item]}
-                    compartmentName={item}
-                    handleKeyPress={this.handleKeyPress}
-                    addListItem={this.addListItem}
-                    checkBox={this.checkBox}
-                    delCompartment={this.delCompartment}
-                    delListItem={this.delListItem}
-                    id={'compartment-' + index}
-                    key={index}
-                  />
-                )
-              })
-            }
+          {/* compartment accordion parent divs */}
+          <div className="accordion" id="accordionExample">
+            <div className="card">
+              {/* create a new compartment for each one listed in this.state.data */}
+              {
+                compartments.map((item, index) => {
+                  return (
+                    <Compartment
+                      itemView={this.state.itemView}
+                      data={this.state.data[item]}
+                      compartmentName={item}
+                      handleKeyPress={this.handleKeyPress}
+                      addListItem={this.addListItem}
+                      checkBox={this.checkBox}
+                      delCompartment={this.delCompartment}
+                      delListItem={this.delListItem}
+                      id={'compartment-' + index}
+                      key={index}
+                    />
+                  )
+                })
+              }
+            </div>
           </div>
         </div>
       </>
