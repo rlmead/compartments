@@ -39,10 +39,13 @@ class Box extends React.Component {
                                         onClick={() => this.props.lockUnlock(this.props.boxName)} />
                             }
                         </div>
-                        <div className='col-10'>
-                            <h4 className='d-inline'>{this.props.boxName}</h4>
+                        <div className='col-1 text-left'>
+                            <h5>{itemsToRender.length}</h5>
                         </div>
-                        <div className='col-1'>
+                        <div className='col-8'>
+                            <h3 className='d-inline'>{this.props.boxName}</h3>
+                        </div>
+                        <div className='col-2'>
                             <FontAwesomeIcon
                                 icon={faTrashAlt}
                                 onClick={() => this.props.delBox(this.props.boxName)} />
