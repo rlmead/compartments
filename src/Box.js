@@ -7,9 +7,9 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
 class Box extends React.Component {
     constructor(props) {
-        super();
+        super(props);
         this.state = {
-            display: true,
+            display: this.props.display,
         }
         this.expandCollapse = this.expandCollapse.bind(this);
     }

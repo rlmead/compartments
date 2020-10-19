@@ -68,7 +68,7 @@ class App extends React.Component {
       alert('please choose a unique, non-empty box name');
     } else {
       let existingBoxes = this.state.data;
-      existingBoxes[boxInput.value] = [];
+      existingBoxes[boxInput.value] = {display: true, list: []};
       this.setState({ data: existingBoxes });
       boxInput.value = '';
     }
@@ -82,7 +82,7 @@ class App extends React.Component {
       let newCount = this.state.itemCount + 1;
       this.setState({ itemCount: newCount });
       let existingToDos = this.state.data;
-      existingToDos[boxName].unshift({
+      existingToDos[boxName]['list'].unshift({
         'name': listItemInput.value,
         'id': this.state.itemCount,
         'done': false,
@@ -95,8 +95,8 @@ class App extends React.Component {
   // declare function checkBox to mark a list item as done
   checkBox(boxName, listItemId) {
     let allData = this.state.data;
-    let itemIndex = this.state.data[boxName].findIndex(item => item.id === listItemId);
-    allData[boxName][itemIndex].done = !allData[boxName][itemIndex].done;
+    let itemIndex = this.state.data[boxName]['list'].findIndex(item => item.id === listItemId);
+    allData[boxName]['list'][itemIndex].done = !allData[boxName]['list'][itemIndex].done;
     this.setState({ data: allData })
   }
 
@@ -111,9 +111,9 @@ class App extends React.Component {
 
   // declare function delListItem to remove a list item
   delListItem(boxName, listItemId) {
-    let itemIndex = this.state.data[boxName].findIndex(item => item.id === listItemId);
+    let itemIndex = this.state.data[boxName]['list'].findIndex(item => item.id === listItemId);
     let updatedData = this.state.data;
-    updatedData[boxName].splice(itemIndex, 1);
+    updatedData[boxName]['list'].splice(itemIndex, 1);
     this.setState({ data: updatedData });
   }
 
@@ -139,7 +139,7 @@ class App extends React.Component {
               )
             })
           }
-          {/* COMPARTMENT INPUT onClick=addBox */}
+          {/* BOX INPUT onClick=addBox */}
           <div className='input-group p-3'>
             <input
               id='boxInput'
@@ -167,7 +167,8 @@ class App extends React.Component {
                   return (
                     <Box
                       itemView={this.state.itemView}
-                      data={this.state.data[item]}
+                      data={this.state.data[item]['list']}
+                      display={this.state.data[item]['display']}
                       boxName={item}
                       handleKeyPress={this.handleKeyPress}
                       addListItem={this.addListItem}
