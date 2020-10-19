@@ -5,7 +5,7 @@ class Compartment extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            display: false,
+            display: true,
         }
         this.expandCollapse = this.expandCollapse.bind(this);
     }
@@ -78,13 +78,15 @@ class Compartment extends React.Component {
                         </div>
                         {/* render each list item in this compartment's data array */}
                         {
-                            itemsToRender.map((item, key) => {
+                            itemsToRender.map((item, index) => {
                                 return (
                                     <ListItem
                                         compartmentName={this.props.compartmentName}
                                         data={item}
-                                        id={'list-item-' + key}
+                                        id={'list-item-' + index}
                                         checkBox={this.props.checkBox}
+                                        delListItem={this.props.delListItem}
+                                        key={index}
                                     />
                                 )
                             })

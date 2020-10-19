@@ -20,6 +20,7 @@ class App extends React.Component {
     this.addCompartment = this.addCompartment.bind(this);
     this.addListItem = this.addListItem.bind(this);
     this.checkBox = this.checkBox.bind(this);
+    this.delListItem = this.delListItem.bind(this);
   }
 
   // declare a function to change view with viewButtons
@@ -100,14 +101,15 @@ class App extends React.Component {
     this.setState({ data: allData })
   }
 
-  // declare an array with compartment background colors
-  // to alternate when generating compartments
+  // declare function delListItem to remove a list item
+  delListItem(compartmentName,listItemId) {
+    let itemIndex = this.state.data[compartmentName].findIndex(item => item.id === listItemId);
+    let updatedData = this.state.data;
+    updatedData[compartmentName].splice(itemIndex, 1);
+    this.setState({ data: updatedData});
+  }
 
-  // declare function delCompartment to remove a compartment array
-  // to be used on compartment X button click
-
-  // declare function delListItem to remove a list item object from the storage object / compartment array
-  // to be used on list X button click
+  // declare function delCompartment to remove a compartment
 
   render() {
     let compartments = Object.keys(this.state.data).reverse();
@@ -163,6 +165,7 @@ class App extends React.Component {
                     handleKeyPress={this.handleKeyPress}
                     addListItem={this.addListItem}
                     checkBox={this.checkBox}
+                    delListItem={this.delListItem}
                     id={'compartment-' + index}
                     key={index}
                   />
