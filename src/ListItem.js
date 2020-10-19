@@ -31,7 +31,6 @@ function ListItem(props) {
                 <div className='col-1'>
                     <FontAwesomeIcon
                     icon={faTrashAlt}
-                    className='text-right'
                     onClick={() => props.delListItem(props.compartmentName, props.data.id)}/>
                 </div>
             </div>

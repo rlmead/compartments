@@ -1,5 +1,9 @@
 import React from 'react';
 import ListItem from './ListItem.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLock } from '@fortawesome/free-solid-svg-icons'
+import { faLockOpen } from '@fortawesome/free-solid-svg-icons'
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
 class Compartment extends React.Component {
     constructor(props) {
@@ -9,14 +13,6 @@ class Compartment extends React.Component {
         }
         this.expandCollapse = this.expandCollapse.bind(this);
     }
-    // passed through in props:
-    // <Compartment
-    //     itemView={this.state.itemView}
-    //     data={this.state.data}
-    //     compartmentName={item}
-    //     addListItem={this.addListItem}
-    //     key={'compartment-' + key}
-    //     />
 
     // function to expand/collapse this compartment
     expandCollapse() {
@@ -40,17 +36,29 @@ class Compartment extends React.Component {
         return (
             <>
                 <div className='card-header border' id='headingOne'>
-                    <h4 className='d-inline'>{this.props.compartmentName}</h4>
-                    <button
-                        className='btn btn-link'
-                        type='button'
-                        data-toggle='collapse'
-                        data-target='#collapseOne'
-                        aria-expanded='true'
-                        aria-controls='collapseOne'
-                        onClick={this.expandCollapse}>
-                        {this.state.display ? '-' : '+'}
-                    </button>
+                    <div className='container'>
+                        <div className='row'>
+                            <div className='col-1'>
+                                {
+                                    this.state.display
+                                        ? <FontAwesomeIcon
+                                            icon={faLockOpen}
+                                            onClick={this.expandCollapse} />
+                                        : <FontAwesomeIcon
+                                            icon={faLock}
+                                            onClick={this.expandCollapse} />
+                                }
+                            </div>
+                            <div className='col-10'>
+                                <h4 className='d-inline'>{this.props.compartmentName}</h4>
+                            </div>
+                            <div className='col-1'>
+                                <FontAwesomeIcon
+                                    icon={faTrashAlt}
+                                    onClick={() => this.props.delCompartment(this.props.compartmentName)} />
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div
                     id='collapseOne'
@@ -60,12 +68,12 @@ class Compartment extends React.Component {
                     <div className='card-body mb-3 border'>
                         <div className='input-group p-3'>
                             <input
-                            id={'input-' + this.props.id}
-                            data-compartment={this.props.compartmentName}
-                            type='text'
-                            className='form-control' placeholder='compartmentalize a thought'
-                            aria-describedby='button-addon2'
-                            onKeyPress={this.props.handleKeyPress}>
+                                id={'input-' + this.props.id}
+                                data-compartment={this.props.compartmentName}
+                                type='text'
+                                className='form-control' placeholder='compartmentalize a thought'
+                                aria-describedby='button-addon2'
+                                onKeyPress={this.props.handleKeyPress}>
                             </input>
                             <div className='input-group-append'>
                                 <button

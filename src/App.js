@@ -20,6 +20,7 @@ class App extends React.Component {
     this.addCompartment = this.addCompartment.bind(this);
     this.addListItem = this.addListItem.bind(this);
     this.checkBox = this.checkBox.bind(this);
+    this.delCompartment = this.delCompartment.bind(this);
     this.delListItem = this.delListItem.bind(this);
   }
 
@@ -60,8 +61,6 @@ class App extends React.Component {
     }
   }
 
-  // onClick={() => this.props.addListItem(this.props.compartmentName, document.getElementById('input-' + this.props.id))}
-
   // declare function addCompartment to add a new compartment array to the storage object
   // to be used on compartment input button click - and componentDidMount?
   addCompartment(compartmentInput) {
@@ -101,15 +100,22 @@ class App extends React.Component {
     this.setState({ data: allData })
   }
 
+  // declare function delCompartment to remove a compartment
+  delCompartment(compartmentName) {
+    let updatedData = this.state.data;
+    console.log(updatedData);
+    delete updatedData[compartmentName];
+    console.log(updatedData);
+    this.setState({ data: updatedData })
+  }
+
   // declare function delListItem to remove a list item
-  delListItem(compartmentName,listItemId) {
+  delListItem(compartmentName, listItemId) {
     let itemIndex = this.state.data[compartmentName].findIndex(item => item.id === listItemId);
     let updatedData = this.state.data;
     updatedData[compartmentName].splice(itemIndex, 1);
-    this.setState({ data: updatedData});
+    this.setState({ data: updatedData });
   }
-
-  // declare function delCompartment to remove a compartment
 
   render() {
     let compartments = Object.keys(this.state.data).reverse();
@@ -135,12 +141,12 @@ class App extends React.Component {
         {/* COMPARTMENT INPUT onClick=addCompartment */}
         <div className='input-group p-3'>
           <input
-          id='compartmentInput'
-          type='text'
-          className='form-control'
-          placeholder='add a new compartment'
-          aria-describedby='button-addon2'
-          onKeyPress={this.handleKeyPress}>
+            id='compartmentInput'
+            type='text'
+            className='form-control'
+            placeholder='add a new compartment'
+            aria-describedby='button-addon2'
+            onKeyPress={this.handleKeyPress}>
           </input>
           <div className='input-group-append'>
             <button
@@ -165,6 +171,7 @@ class App extends React.Component {
                     handleKeyPress={this.handleKeyPress}
                     addListItem={this.addListItem}
                     checkBox={this.checkBox}
+                    delCompartment={this.delCompartment}
                     delListItem={this.delListItem}
                     id={'compartment-' + index}
                     key={index}
