@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
 function ListItem(props) {
-    // passed from Compartment.js:
+    // passed from Box.js:
     // data={item_data}
     // delListItem={this.props.delListItem}
     // itemsToShow={this.props.itemsToShow}
@@ -15,7 +15,7 @@ function ListItem(props) {
                         className='form-check-input'
                         type='checkbox'
                         id={'check-' + props.id}
-                        onClick={() => props.checkBox(props.compartmentName, props.data.id)}
+                        onClick={() => props.checkBox(props.boxName, props.data.id)}
                         defaultChecked={(props.data.done)} />
                 </div>
                 <div className='col-10 text-left'>
@@ -31,7 +31,7 @@ function ListItem(props) {
                 <div className='col-1'>
                     <FontAwesomeIcon
                     icon={faTrashAlt}
-                    onClick={() => props.delListItem(props.compartmentName, props.data.id)}/>
+                    onClick={() => props.delListItem(props.boxName, props.data.id)}/>
                 </div>
             </div>
         </div>

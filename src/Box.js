@@ -5,7 +5,7 @@ import { faLock } from '@fortawesome/free-solid-svg-icons'
 import { faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
-class Compartment extends React.Component {
+class Box extends React.Component {
     constructor(props) {
         super();
         this.state = {
@@ -14,7 +14,7 @@ class Compartment extends React.Component {
         this.expandCollapse = this.expandCollapse.bind(this);
     }
 
-    // function to expand/collapse this compartment
+    // function to expand/collapse this box
     expandCollapse() {
         this.setState({ display: !this.state.display })
     }
@@ -49,12 +49,12 @@ class Compartment extends React.Component {
                             }
                         </div>
                         <div className='col-10'>
-                            <h4 className='d-inline'>{this.props.compartmentName}</h4>
+                            <h4 className='d-inline'>{this.props.boxName}</h4>
                         </div>
                         <div className='col-1'>
                             <FontAwesomeIcon
                                 icon={faTrashAlt}
-                                onClick={() => this.props.delCompartment(this.props.compartmentName)} />
+                                onClick={() => this.props.delBox(this.props.boxName)} />
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@ class Compartment extends React.Component {
                         <div className='input-group p-3'>
                             <input
                                 id={'input-' + this.props.id}
-                                data-compartment={this.props.compartmentName}
+                                data-box={this.props.boxName}
                                 type='text'
                                 className='form-control'
                                 placeholder='lock something away'
@@ -79,16 +79,16 @@ class Compartment extends React.Component {
                                     className='btn btn-outline-secondary'
                                     type='button'
                                     id='button-addon2'
-                                    onClick={() => this.props.addListItem(this.props.compartmentName, document.getElementById('input-' + this.props.id))}>+
+                                    onClick={() => this.props.addListItem(this.props.boxName, document.getElementById('input-' + this.props.id))}>+
                                 </button>
                             </div>
                         </div>
-                        {/* render each list item in this compartment's data array */}
+                        {/* render each list item in this box's data array */}
                         {
                             itemsToRender.map((item, index) => {
                                 return (
                                     <ListItem
-                                        compartmentName={this.props.compartmentName}
+                                        boxName={this.props.boxName}
                                         data={item}
                                         id={'list-item-' + index}
                                         checkBox={this.props.checkBox}
@@ -105,4 +105,4 @@ class Compartment extends React.Component {
     }
 }
 
-export default Compartment;
+export default Box;

@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Compartment from './Compartment.js';
+import Box from './Box.js';
 
 class App extends React.Component {
   constructor() {
@@ -17,10 +17,10 @@ class App extends React.Component {
     ];
     this.setView = this.setView.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.addCompartment = this.addCompartment.bind(this);
+    this.addBox = this.addBox.bind(this);
     this.addListItem = this.addListItem.bind(this);
     this.checkBox = this.checkBox.bind(this);
-    this.delCompartment = this.delCompartment.bind(this);
+    this.delBox = this.delBox.bind(this);
     this.delListItem = this.delListItem.bind(this);
   }
 
@@ -29,7 +29,7 @@ class App extends React.Component {
     this.setState({ itemView: view })
   }
 
-  // load existing compartments from localStorage as necessary
+  // load existing boxes from localStorage as necessary
   componentDidMount() {
     let storedData = window.localStorage.getItem('data')
     let storedCount = window.localStorage.getItem('itemCount')
@@ -52,37 +52,37 @@ class App extends React.Component {
   handleKeyPress(e) {
     if (e.key === 'Enter') {
       e.preventDefault();
-      if (e.target.id === 'compartmentInput') {
-        this.addCompartment(e.target);
+      if (e.target.id === 'boxInput') {
+        this.addBox(e.target);
       } else {
-        // console.log(e.target.dataset.compartment);
-        this.addListItem(e.target.dataset.compartment, e.target);
+        // console.log(e.target.dataset.box);
+        this.addListItem(e.target.dataset.box, e.target);
       }
     }
   }
 
-  // declare function addCompartment to add a new compartment array to the storage object
-  // to be used on compartment input button click - and componentDidMount?
-  addCompartment(compartmentInput) {
-    if (compartmentInput.value in this.state.data || compartmentInput.value === '') {
-      alert('please choose a unique, non-empty compartment name');
+  // declare function addBox to add a new box array to the storage object
+  // to be used on box input button click - and componentDidMount?
+  addBox(boxInput) {
+    if (boxInput.value in this.state.data || boxInput.value === '') {
+      alert('please choose a unique, non-empty box name');
     } else {
-      let existingCompartments = this.state.data;
-      existingCompartments[compartmentInput.value] = [];
-      this.setState({ data: existingCompartments });
-      compartmentInput.value = '';
+      let existingBoxes = this.state.data;
+      existingBoxes[boxInput.value] = [];
+      this.setState({ data: existingBoxes });
+      boxInput.value = '';
     }
   }
 
-  // declare function addListItem to add a new list item object to the storage object / compartment array
-  addListItem(compartmentName, listItemInput) {
+  // declare function addListItem to add a new list item object to the storage object / box array
+  addListItem(boxName, listItemInput) {
     if (listItemInput.value === '') {
       alert('please enter a non-empty thought');
     } else {
       let newCount = this.state.itemCount + 1;
       this.setState({ itemCount: newCount });
       let existingToDos = this.state.data;
-      existingToDos[compartmentName].unshift({
+      existingToDos[boxName].unshift({
         'name': listItemInput.value,
         'id': this.state.itemCount,
         'done': false,
@@ -93,32 +93,32 @@ class App extends React.Component {
   }
 
   // declare function checkBox to mark a list item as done
-  checkBox(compartmentName, listItemId) {
+  checkBox(boxName, listItemId) {
     let allData = this.state.data;
-    let itemIndex = this.state.data[compartmentName].findIndex(item => item.id === listItemId);
-    allData[compartmentName][itemIndex].done = !allData[compartmentName][itemIndex].done;
+    let itemIndex = this.state.data[boxName].findIndex(item => item.id === listItemId);
+    allData[boxName][itemIndex].done = !allData[boxName][itemIndex].done;
     this.setState({ data: allData })
   }
 
-  // declare function delCompartment to remove a compartment
-  delCompartment(compartmentName) {
+  // declare function delBox to remove a box
+  delBox(boxName) {
     let updatedData = this.state.data;
     console.log(updatedData);
-    delete updatedData[compartmentName];
+    delete updatedData[boxName];
     console.log(updatedData);
     this.setState({ data: updatedData })
   }
 
   // declare function delListItem to remove a list item
-  delListItem(compartmentName, listItemId) {
-    let itemIndex = this.state.data[compartmentName].findIndex(item => item.id === listItemId);
+  delListItem(boxName, listItemId) {
+    let itemIndex = this.state.data[boxName].findIndex(item => item.id === listItemId);
     let updatedData = this.state.data;
-    updatedData[compartmentName].splice(itemIndex, 1);
+    updatedData[boxName].splice(itemIndex, 1);
     this.setState({ data: updatedData });
   }
 
   render() {
-    let compartments = Object.keys(this.state.data).reverse();
+    let boxes = Object.keys(this.state.data).reverse();
     return (
       <>
         {/* header */}
@@ -139,10 +139,10 @@ class App extends React.Component {
               )
             })
           }
-          {/* COMPARTMENT INPUT onClick=addCompartment */}
+          {/* COMPARTMENT INPUT onClick=addBox */}
           <div className='input-group p-3'>
             <input
-              id='compartmentInput'
+              id='boxInput'
               type='text'
               className='form-control'
               placeholder='add a new lockbox'
@@ -154,27 +154,27 @@ class App extends React.Component {
                 className='btn btn-outline-secondary'
                 type='button'
                 id='button-addon2'
-                onClick={() => this.addCompartment(document.getElementById('compartmentInput'))}>+
+                onClick={() => this.addBox(document.getElementById('boxInput'))}>+
             </button>
             </div>
           </div>
-          {/* compartment accordion parent divs */}
+          {/* box accordion parent divs */}
           <div className="accordion" id="accordionExample">
             <div className="card">
-              {/* create a new compartment for each one listed in this.state.data */}
+              {/* create a new box for each one listed in this.state.data */}
               {
-                compartments.map((item, index) => {
+                boxes.map((item, index) => {
                   return (
-                    <Compartment
+                    <Box
                       itemView={this.state.itemView}
                       data={this.state.data[item]}
-                      compartmentName={item}
+                      boxName={item}
                       handleKeyPress={this.handleKeyPress}
                       addListItem={this.addListItem}
                       checkBox={this.checkBox}
-                      delCompartment={this.delCompartment}
+                      delBox={this.delBox}
                       delListItem={this.delListItem}
-                      id={'compartment-' + index}
+                      id={'box-' + index}
                       key={index}
                     />
                   )
