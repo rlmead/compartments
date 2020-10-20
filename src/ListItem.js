@@ -12,7 +12,7 @@ function ListItem(props) {
                         type='checkbox'
                         id={'check-' + props.id}
                         onClick={() => props.checkBox(props.boxName, props.data.id)}
-                        defaultChecked={(props.data.done)} />
+                        checked={props.data.done} />
                 </div>
                 <div className='col-10 text-left'>
                     <label

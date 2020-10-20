@@ -45,9 +45,11 @@ class App extends React.Component {
     let storedCount = window.localStorage.getItem('itemCount')
     let storedView = window.localStorage.getItem('itemView')
     if (storedData) {
-      this.setState({ data: JSON.parse(storedData) })
-      this.setState({ itemCount: JSON.parse(storedCount) })
-      this.setState({ itemView: JSON.parse(storedView) })
+      this.setState({
+        data: JSON.parse(storedData),
+        itemCount: JSON.parse(storedCount),
+        itemView: JSON.parse(storedView)
+      })
     } else {
       window.localStorage.setItem('data', JSON.stringify({}))
       window.localStorage.setItem('itemCount', JSON.stringify(this.state.itemCount))
