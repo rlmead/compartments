@@ -3,10 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
 function ListItem(props) {
-    // passed from Box.js:
-    // data={item_data}
-    // delListItem={this.props.delListItem}
-    // itemsToShow={this.props.itemsToShow}
     return (
         <div className='container'>
             <div className='row'>

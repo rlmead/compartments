@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import Box from './Box.js';
+import DangerButtons from './DangerButtons'
 
 class App extends React.Component {
   constructor() {
@@ -15,6 +16,14 @@ class App extends React.Component {
       'neglected',
       'done'
     ];
+    this.markAllNeglected = this.markAllNeglected.bind(this);
+    this.markAllDone = this.markAllDone.bind(this);
+    this.removeAllDone = this.removeAllDone.bind(this);
+    this.dangerousButtons = {
+      'mark all neglected': this.markAllNeglected,
+      'mark all done': this.markAllDone,
+      'remove all done': this.removeAllDone,
+    };
     this.setView = this.setView.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.addBox = this.addBox.bind(this);
@@ -34,12 +43,15 @@ class App extends React.Component {
   componentDidMount() {
     let storedData = window.localStorage.getItem('data')
     let storedCount = window.localStorage.getItem('itemCount')
+    let storedView = window.localStorage.getItem('itemView')
     if (storedData) {
       this.setState({ data: JSON.parse(storedData) })
       this.setState({ itemCount: JSON.parse(storedCount) })
+      this.setState({ itemView: JSON.parse(storedView) })
     } else {
       window.localStorage.setItem('data', JSON.stringify({}))
       window.localStorage.setItem('itemCount', JSON.stringify(this.state.itemCount))
+      window.localStorage.setItem('itemView', JSON.stringify(this.state.itemView))
     }
   }
 
@@ -47,6 +59,7 @@ class App extends React.Component {
   componentDidUpdate() {
     window.localStorage.setItem('data', JSON.stringify(this.state.data))
     window.localStorage.setItem('itemCount', JSON.stringify(this.state.itemCount))
+    window.localStorage.setItem('itemView', JSON.stringify(this.state.itemView))
   }
 
   // declare function to handle "enter" keypress
@@ -69,7 +82,7 @@ class App extends React.Component {
       alert('please choose a unique, non-empty box name');
     } else {
       let existingBoxes = this.state.data;
-      existingBoxes[boxInput.value] = {display: true, list: []};
+      existingBoxes[boxInput.value] = { display: true, list: [] };
       this.setState({ data: existingBoxes });
       boxInput.value = '';
     }
@@ -122,6 +135,37 @@ class App extends React.Component {
     console.log(boxName);
     let updatedData = this.state.data;
     updatedData[boxName]['display'] = !updatedData[boxName]['display'];
+    this.setState({ data: updatedData });
+  }
+
+  markAllNeglected() {
+    let updatedData = this.state.data;
+    Object.keys(updatedData).forEach(function (box) {
+      updatedData[box]['list'].forEach(function (item) {
+        item.done = false;
+      })
+    });
+    this.setState({ data: updatedData });
+  }
+
+  markAllDone() {
+    let updatedData = this.state.data;
+    Object.keys(updatedData).forEach(function (box) {
+      updatedData[box]['list'].forEach(function (item) {
+        item.done = true;
+      })
+    });
+    this.setState({ data: updatedData });
+  }
+
+  removeAllDone() {
+    let updatedData = this.state.data;
+    Object.keys(updatedData).forEach(function (box) {
+      updatedData[box]['list'].filter(item => (item.done === true)).forEach(function (item) {
+        let itemIndex = updatedData[box]['list'].findIndex(x => x.id === item.id);
+        updatedData[box]['list'].splice(itemIndex, 1);
+      })
+    });
     this.setState({ data: updatedData });
   }
 
@@ -192,6 +236,11 @@ class App extends React.Component {
               }
             </div>
           </div>
+          {boxes.length > 0 &&
+            <DangerButtons
+              dangerousButtons={this.dangerousButtons}
+            />
+          }
         </div>
       </>
     );
