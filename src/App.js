@@ -2,9 +2,9 @@ import React from 'react';
 import './App.css';
 import Box from './Box.js';
 import './theme_1603389224479.scss';
-// import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
-// import { faCheckSquare } from '@fortawesome/free-solid-svg-icons'
-// import { faSquare } from '@fortawesome/free-solid-svg-icons'
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faCheckSquare } from '@fortawesome/free-solid-svg-icons'
+import { faSquare } from '@fortawesome/free-solid-svg-icons'
 
 class App extends React.Component {
   constructor() {
@@ -23,9 +23,9 @@ class App extends React.Component {
     this.markAllDone = this.markAllDone.bind(this);
     this.removeAllDone = this.removeAllDone.bind(this);
     this.dangerButtons = [
-      { 'task': 'mark all neglected', 'function': this.markAllNeglected, 'icon': 'faCheckSquare' },
-      { 'task': 'mark all done', 'function': this.markAllDone, 'icon': 'faSquare' },
-      { 'task': 'remove all done', 'function': this.removeAllDone, 'icon': 'faTrashAlt' },
+      { 'task': 'mark all neglected', 'function': this.markAllNeglected, 'icon': faSquare },
+      { 'task': 'mark all done', 'function': this.markAllDone, 'icon': faCheckSquare },
+      { 'task': 'remove all done', 'function': this.removeAllDone, 'icon': faTrashAlt },
     ];
     this.setView = this.setView.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);

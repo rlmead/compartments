@@ -12,12 +12,12 @@ function DangerButtons(props) {
                 // generate buttons dynamically using props.dangerButtons data
                 props.dangerButtons.map((item, index) => {
                     return (
-                        <div className='col-2' key={index}>{item.icon}
-                            {/* <FontAwesomeIcon
+                        <div className='col-2' key={index}>
+                            <FontAwesomeIcon
                                 icon={item.icon}
                                 className='text-danger'
-                                onClick={() => item.function}
-                            /> */}
+                                onClick={item.function}
+                            />
                         </div>
                     )
                 })

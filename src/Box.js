@@ -94,12 +94,12 @@ class Box extends React.Component {
                             })
                         }
                         <div className='row'>
-                            {/* {
+                            {
                                 this.props.data.length > 0 &&
                                 <DangerButtons
                                     dangerButtons={this.props.dangerButtons}
                                 />
-                            } */}
+                            }
                         </div>
                     </div>
                 </div>
