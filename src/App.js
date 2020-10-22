@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import Box from './Box.js';
+import './theme_1603386779546.scss';
 // import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 // import { faCheckSquare } from '@fortawesome/free-solid-svg-icons'
 // import { faSquare } from '@fortawesome/free-solid-svg-icons'
