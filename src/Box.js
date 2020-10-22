@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock } from '@fortawesome/free-solid-svg-icons'
 import { faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import DangerButtons from './DangerButtons'
 
 class Box extends React.Component {
     constructor(props) {
@@ -92,6 +93,14 @@ class Box extends React.Component {
                                 )
                             })
                         }
+                        <div className='row'>
+                            {/* {
+                                this.props.data.length > 0 &&
+                                <DangerButtons
+                                    dangerButtons={this.props.dangerButtons}
+                                />
+                            } */}
+                        </div>
                     </div>
                 </div>
             </>

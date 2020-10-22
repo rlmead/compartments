@@ -1,35 +1,30 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBolt } from '@fortawesome/free-solid-svg-icons'
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faCheckSquare } from '@fortawesome/free-solid-svg-icons'
+import { faSquare } from '@fortawesome/free-solid-svg-icons'
 
 function DangerButtons(props) {
     return (
-        <div className='row mt-4'>
-            <div className='col-1 offset-1'>
-                <FontAwesomeIcon icon={faBolt} style={{ fontSize: 2 + 'em' }} />
-            </div>
-            <div className='col-8'>
-                {
-                    // generate buttons dynamically using props.pages
-                    Object.keys(props.dangerousButtons).map((item, key) => {
-                        return (
-                            <button
-                                key={'button-' + key}
-                                className='m-2 btn btn-danger'
-                                id={key}
-                                onClick={props.dangerousButtons[item]}
-                            >
-                                {item}
-                            </button>
-                        )
-                    })
-                }
-            </div>
-            <div className='col-1'>
-                <FontAwesomeIcon icon={faBolt} style={{ fontSize: 2 + 'em' }} />
-            </div>
-        </div>
+        <>
+            <div className='col-3'></div>
+            {
+                // generate buttons dynamically using props.dangerButtons data
+                props.dangerButtons.map((item, index) => {
+                    return (
+                        <div className='col-2' key={index}>{item.icon}
+                            {/* <FontAwesomeIcon
+                                icon={item.icon}
+                                className='text-danger'
+                                onClick={() => item.function}
+                            /> */}
+                        </div>
+                    )
+                })
+            }
+        </>
     )
 }
+
 
 export default DangerButtons;
