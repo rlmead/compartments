@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Box from './Box.js';
-import './theme_1603386779546.scss';
+import './theme_1603389224479.scss';
 // import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 // import { faCheckSquare } from '@fortawesome/free-solid-svg-icons'
 // import { faSquare } from '@fortawesome/free-solid-svg-icons'
@@ -189,7 +189,7 @@ class App extends React.Component {
               return (
                 <button
                   key={'button-' + key}
-                  className={'m-2 btn ' + ((this.state.itemView === item) ? ' btn-primary' : 'btn-secondary')}
+                  className={'m-2 btn ' + ((this.state.itemView === item) ? ' btn-success' : 'btn-secondary')}
                   onClick={() => this.setView(item)}
                 >
                   {item}
