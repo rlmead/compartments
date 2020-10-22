@@ -1,6 +1,10 @@
 import React from 'react';
 import './App.css';
-import Compartment from './Compartment.js';
+import Box from './Box.js';
+import './theme_1603389224479.scss';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faCheckSquare } from '@fortawesome/free-solid-svg-icons'
+import { faSquare } from '@fortawesome/free-solid-svg-icons'
 
 class App extends React.Component {
   constructor() {
@@ -12,13 +16,25 @@ class App extends React.Component {
     };
     this.viewButtons = [
       'all',
-      'to do',
+      'neglected',
       'done'
     ];
+    this.markAllNeglected = this.markAllNeglected.bind(this);
+    this.markAllDone = this.markAllDone.bind(this);
+    this.removeAllDone = this.removeAllDone.bind(this);
+    this.dangerButtons = [
+      { 'task': 'mark all neglected', 'function': this.markAllNeglected, 'icon': faSquare },
+      { 'task': 'mark all done', 'function': this.markAllDone, 'icon': faCheckSquare },
+      { 'task': 'remove all done', 'function': this.removeAllDone, 'icon': faTrashAlt },
+    ];
     this.setView = this.setView.bind(this);
-    this.addCompartment = this.addCompartment.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.addBox = this.addBox.bind(this);
     this.addListItem = this.addListItem.bind(this);
     this.checkBox = this.checkBox.bind(this);
+    this.delBox = this.delBox.bind(this);
+    this.delListItem = this.delListItem.bind(this);
+    this.lockUnlock = this.lockUnlock.bind(this);
   }
 
   // declare a function to change view with viewButtons
@@ -26,122 +42,206 @@ class App extends React.Component {
     this.setState({ itemView: view })
   }
 
-  // load existing compartments from localStorage as necessary
+  // load existing boxes from localStorage as necessary
   componentDidMount() {
     let storedData = window.localStorage.getItem('data')
+    let storedCount = window.localStorage.getItem('itemCount')
+    let storedView = window.localStorage.getItem('itemView')
     if (storedData) {
-      this.setState({ data: JSON.parse(storedData) })
+      this.setState({
+        data: JSON.parse(storedData),
+        itemCount: JSON.parse(storedCount),
+        itemView: JSON.parse(storedView)
+      })
     } else {
       window.localStorage.setItem('data', JSON.stringify({}))
+      window.localStorage.setItem('itemCount', JSON.stringify(this.state.itemCount))
+      window.localStorage.setItem('itemView', JSON.stringify(this.state.itemView))
     }
   }
 
   // keep localStorage up to date with this.state.currentPage
   componentDidUpdate() {
     window.localStorage.setItem('data', JSON.stringify(this.state.data))
+    window.localStorage.setItem('itemCount', JSON.stringify(this.state.itemCount))
+    window.localStorage.setItem('itemView', JSON.stringify(this.state.itemView))
   }
 
-  // declare function addCompartment to add a new compartment array to the storage object
-  // to be used on compartment input button click - and componentDidMount?
-  addCompartment(compartmentName) {
-    if (compartmentName in this.state.data || compartmentName === '') {
-      alert('please choose a unique, non-empty compartment name');
-    } else {
-      let existingCompartments = this.state.data;
-      existingCompartments[compartmentName] = [];
-      this.setState({ data: existingCompartments });
+  // declare function to handle "enter" keypress
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (e.target.id === 'boxInput') {
+        this.addBox(e.target);
+      } else {
+        // console.log(e.target.dataset.box);
+        this.addListItem(e.target.dataset.box, e.target);
+      }
     }
   }
 
-  // declare function addListItem to add a new list item object to the storage object / compartment array
-  addListItem(compartmentName, listItemName) {
-    if (listItemName === '') {
+  // declare function addBox to add a new box array to the storage object
+  // to be used on box input button click - and componentDidMount?
+  addBox(boxInput) {
+    if (boxInput.value in this.state.data || boxInput.value === '') {
+      alert('please choose a unique, non-empty box name');
+    } else {
+      let existingBoxes = this.state.data;
+      existingBoxes[boxInput.value] = { display: true, list: [] };
+      this.setState({ data: existingBoxes });
+      boxInput.value = '';
+    }
+  }
+
+  // declare function addListItem to add a new list item object to the storage object / box array
+  addListItem(boxName, listItemInput) {
+    if (listItemInput.value === '') {
       alert('please enter a non-empty thought');
     } else {
       let newCount = this.state.itemCount + 1;
       this.setState({ itemCount: newCount });
       let existingToDos = this.state.data;
-      existingToDos[compartmentName].push({
-        'name': listItemName,
+      existingToDos[boxName]['list'].unshift({
+        'name': listItemInput.value,
         'id': this.state.itemCount,
         'done': false,
       })
       this.setState({ data: existingToDos });
+      listItemInput.value = '';
     }
   }
 
   // declare function checkBox to mark a list item as done
-  checkBox(compartmentName, listItemId) {
+  checkBox(boxName, listItemId) {
     let allData = this.state.data;
-    let itemIndex = this.state.data[compartmentName].findIndex(item => item.id === listItemId);
-    allData[compartmentName][itemIndex].done = !allData[compartmentName][itemIndex].done;
+    let itemIndex = this.state.data[boxName]['list'].findIndex(item => item.id === listItemId);
+    allData[boxName]['list'][itemIndex].done = !allData[boxName]['list'][itemIndex].done;
     this.setState({ data: allData })
   }
 
-  // declare an array with compartment background colors
-  // to alternate when generating compartments
+  // declare function delBox to remove a box
+  delBox(boxName) {
+    let updatedData = this.state.data;
+    console.log(updatedData);
+    delete updatedData[boxName];
+    console.log(updatedData);
+    this.setState({ data: updatedData })
+  }
 
-  // declare function delCompartment to remove a compartment array
-  // to be used on compartment X button click
+  // declare function delListItem to remove a list item
+  delListItem(boxName, listItemId) {
+    let itemIndex = this.state.data[boxName]['list'].findIndex(item => item.id === listItemId);
+    let updatedData = this.state.data;
+    updatedData[boxName]['list'].splice(itemIndex, 1);
+    this.setState({ data: updatedData });
+  }
 
-  // declare function delListItem to remove a list item object from the storage object / compartment array
-  // to be used on list X button click
+  lockUnlock(boxName) {
+    console.log(boxName);
+    let updatedData = this.state.data;
+    updatedData[boxName]['display'] = !updatedData[boxName]['display'];
+    this.setState({ data: updatedData });
+  }
+
+  markAllNeglected(box) {
+    let updatedData = this.state.data;
+    updatedData[box]['list'].forEach(function (item) {
+      item.done = false;
+    });
+    this.setState({ data: updatedData });
+  }
+
+  markAllDone(box) {
+    let updatedData = this.state.data;
+    updatedData[box]['list'].forEach(function (item) {
+      item.done = true;
+    });
+    this.setState({ data: updatedData });
+  }
+
+  removeAllDone(box) {
+    let updatedData = this.state.data;
+    updatedData[box]['list'].filter(item => (item.done === true)).forEach(function (item) {
+      let itemIndex = updatedData[box]['list'].findIndex(x => x.id === item.id);
+      updatedData[box]['list'].splice(itemIndex, 1);
+    });
+    this.setState({ data: updatedData });
+  }
+
 
   render() {
-    let compartments = Object.keys(this.state.data);
+    let boxes = Object.keys(this.state.data).reverse();
     return (
       <>
         {/* header */}
-        <h1>compartments</h1>
-        {/* render buttons that will setState of itemView */}
-        {
-          // generate buttons dynamically using props.pages
-          this.viewButtons.map((item, key) => {
-            return (
+        <div className='container'>
+          <h1>to don't</h1>
+          {/* render buttons that will setState of itemView */}
+          {
+            // generate buttons dynamically using props.pages
+            this.viewButtons.map((item, key) => {
+              return (
+                <button
+                  key={'button-' + key}
+                  className={'m-2 btn ' + ((this.state.itemView === item) ? ' btn-success' : 'btn-secondary')}
+                  onClick={() => this.setView(item)}
+                >
+                  {item}
+                </button>
+              )
+            })
+          }
+          {/* BOX INPUT onClick=addBox */}
+          <div className='input-group p-3'>
+            <input
+              id='boxInput'
+              type='text'
+              className='form-control'
+              placeholder='add a new lockbox'
+              aria-describedby='button-addon2'
+              onKeyPress={this.handleKeyPress}>
+            </input>
+            <div className='input-group-append'>
               <button
-                key={'button-' + key}
-                className={'m-2 btn ' + ((this.state.itemView === item) ? ' btn-primary' : 'btn-secondary')}
-                onClick={() => this.setView(item)}
-              >
-                {item}
-              </button>
-            )
-          })
-        }
-        {/* COMPARTMENT INPUT onClick=addCompartment */}
-        <div className='input-group p-3'>
-          <input id='compartmentInput' type='text' className='form-control' placeholder='add a new compartment' aria-describedby='button-addon2'></input>
-          <div className='input-group-append'>
-            <button
-              className='btn btn-outline-secondary'
-              type='button'
-              id='button-addon2'
-              onClick={() => this.addCompartment(document.getElementById('compartmentInput').value)}>+
+                className='btn btn-outline-secondary'
+                type='button'
+                id='button-addon2'
+                onClick={() => this.addBox(document.getElementById('boxInput'))}>+
             </button>
+            </div>
           </div>
-          {/* <div className='input-group-append'>
-            <button className='btn btn-outline-secondary' type='button' id='button-addon2' onClick={() => this.addListItem(document.getElementById('compartmentInput').value)}>++</button>
-          </div> */}
-        </div>
-        {/* compartment accordion parent divs */}
-        <div className="accordion" id="accordionExample">
-          <div className="card">
-            {/* create a new compartment for each one listed in localStorage */}
-            {
-              compartments.map((item, index) => {
-                return (
-                  <Compartment
-                    itemView={this.state.itemView}
-                    data={this.state.data[item]}
-                    compartmentName={item}
-                    addListItem={this.addListItem}
-                    checkBox={this.checkBox}
-                    id={'compartment-' + index}
-                  />
-                )
-              })
-            }
+          {/* box accordion parent divs */}
+          <div className="accordion" id="accordionExample">
+            <div className="card">
+              {/* create a new box for each one listed in this.state.data */}
+              {
+                boxes.map((item, index) => {
+                  return (
+                    <Box
+                      itemView={this.state.itemView}
+                      data={this.state.data[item]['list']}
+                      display={this.state.data[item]['display']}
+                      boxName={item}
+                      handleKeyPress={this.handleKeyPress}
+                      addListItem={this.addListItem}
+                      checkBox={this.checkBox}
+                      delBox={this.delBox}
+                      delListItem={this.delListItem}
+                      lockUnlock={this.lockUnlock}
+                      dangerButtons={this.dangerButtons}
+                      id={'box-' + index}
+                      key={index}
+                    />
+                  )
+                })
+              }
+            </div>
           </div>
+          {/* {boxes.length > 0 &&
+            <DangerButtons
+              dangerButtons={this.dangerButtons}
+            />
+          } */}
         </div>
       </>
     );
