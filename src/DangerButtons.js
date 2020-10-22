@@ -16,7 +16,7 @@ function DangerButtons(props) {
                             <FontAwesomeIcon
                                 icon={item.icon}
                                 className='text-danger'
-                                onClick={item.function}
+                                onClick={() => item.function(props.boxName)}
                             />
                         </div>
                     )

@@ -143,33 +143,27 @@ class App extends React.Component {
     this.setState({ data: updatedData });
   }
 
-  markAllNeglected() {
+  markAllNeglected(box) {
     let updatedData = this.state.data;
-    Object.keys(updatedData).forEach(function (box) {
-      updatedData[box]['list'].forEach(function (item) {
-        item.done = false;
-      })
+    updatedData[box]['list'].forEach(function (item) {
+      item.done = false;
     });
     this.setState({ data: updatedData });
   }
 
-  markAllDone() {
+  markAllDone(box) {
     let updatedData = this.state.data;
-    Object.keys(updatedData).forEach(function (box) {
-      updatedData[box]['list'].forEach(function (item) {
-        item.done = true;
-      })
+    updatedData[box]['list'].forEach(function (item) {
+      item.done = true;
     });
     this.setState({ data: updatedData });
   }
 
-  removeAllDone() {
+  removeAllDone(box) {
     let updatedData = this.state.data;
-    Object.keys(updatedData).forEach(function (box) {
-      updatedData[box]['list'].filter(item => (item.done === true)).forEach(function (item) {
-        let itemIndex = updatedData[box]['list'].findIndex(x => x.id === item.id);
-        updatedData[box]['list'].splice(itemIndex, 1);
-      })
+    updatedData[box]['list'].filter(item => (item.done === true)).forEach(function (item) {
+      let itemIndex = updatedData[box]['list'].findIndex(x => x.id === item.id);
+      updatedData[box]['list'].splice(itemIndex, 1);
     });
     this.setState({ data: updatedData });
   }

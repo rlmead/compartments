@@ -98,6 +98,7 @@ class Box extends React.Component {
                                 this.props.data.length > 0 &&
                                 <DangerButtons
                                     dangerButtons={this.props.dangerButtons}
+                                    boxName={this.props.boxName}
                                 />
                             }
                         </div>
